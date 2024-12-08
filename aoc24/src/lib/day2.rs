@@ -36,7 +36,7 @@ fn is_safe(report: &[i32]) -> bool {
         
         n = report[i];
     }
-    
+       
     true
 }
 
