@@ -53,10 +53,52 @@ func sumDistances(distances []int) int {
     return sum
 }
 
-func Day1() {
-    fileContents := utils.ReadFileToString("../aoc24/data/day1_main.txt")
+func part1(fileContents string) {
     lefts, rights := getLeftAndRight(strings.Fields(fileContents))
     distances := calcDistances(lefts, rights)
     result := sumDistances(distances)
-    fmt.Printf("%v\n", result)
+    fmt.Printf("Part 1: %v\n", result)
+}
+
+func getMax(xs []int) int {
+    m := xs[0]
+    
+    for _, val := range xs[1:] {
+        if val > m {
+            m = val
+        }
+    }
+
+    return m
+}
+
+func calcSimScores(lefts []int, rights []int) []int {
+    n := getMax(append(lefts, rights...))
+    counts := make([]int, n)
+
+    for _, val := range rights {
+        counts[val - 1]++
+    }
+
+    simScores := []int{}
+
+    for _, val := range lefts {
+        score := val * counts[val - 1]
+        simScores = append(simScores, score)
+    }
+
+    return simScores
+}
+
+func part2(fileContents string) {
+    lefts, rights := getLeftAndRight(strings.Fields(fileContents))
+    simScores := calcSimScores(lefts, rights)
+    result := sumDistances(simScores)
+    fmt.Printf("Par 2: %v\n", result)
+}
+
+func Day1() {
+    fileContents := utils.ReadFileToString("../aoc24/data/day1_main.txt")
+    part1(fileContents)
+    part2(fileContents)
 }
